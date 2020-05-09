@@ -22,33 +22,26 @@ class DoublyLinkedList {
   }
 
   removeFirst() {
-    if (!this.head) return null;
+    if (this.isEmpty()) return null;
 
-    if (!this.head.next) {
-      const cur = this.head;
-      this.head = this.tail = null;
-      return cur;
-    }
-
-    const cur = this.head;
+    const value = this.head.value;
     this.head = this.head.next;
-    this.head.prev = null;
-    return cur;
+    if (!this.head) this.tail = null;
+    return value;
   }
 
   removeLast() {
-    if (!this.tail) return null;
+    if (this.isEmpty()) return null;
 
-    if (!this.tail.prev) {
-      const cur = this.tail;
+    const value = this.tail.value;
+    if (this.head === this.tail) {
       this.head = this.tail = null;
-      return cur;
+    } else {
+      this.tail = this.tail.prev;
+      this.tail.next = null;
     }
 
-    let cur = this.tail;
-    this.tail = this.tail.prev;
-    this.tail.next = null;
-    return cur;
+    return value;
   }
 
   peekFirst() {
@@ -57,6 +50,10 @@ class DoublyLinkedList {
 
   peekLast() {
     return this.tail;
+  }
+
+  isEmpty() {
+    return this.head === null;
   }
 };
 

@@ -21,38 +21,32 @@ class SinglyLinkedList {
   }
 
   removeFirst() {
-    if (!this.head) return null;
+    if (this.isEmpty()) return null;
 
-    if (!this.head.next) {
-      const cur = this.head;
-      this.head = this.tail = null;
-      return cur;
-    }
-
-    const cur = this.head;
+    const value = this.head.value;
     this.head = this.head.next;
-    return cur;
+    if (!this.head) this.tail = null;
+    return value;
   }
 
   removeLast() {
-    if (!this.head) return null;
+    if (this.isEmpty()) return null;
 
-    if (!this.head.next) {
-      const cur = this.head;
+    const value = this.tail.value;
+    if (this.head === this.tail) {
       this.head = this.tail = null;
-      return cur;
+    } else {
+      let cur = this.head;
+      let prev = this.head;
+      while (cur.next) {
+        prev = cur;
+        cur = cur.next;
+      }
+      this.tail = prev;
+      this.tail.next = null;
     }
 
-    let cur = this.head;
-    let prev = this.head;
-    while (cur.next !== null) {
-      prev = cur;
-      cur = cur.next;
-    }
-
-    prev.next = null;
-    this.tail = prev;
-    return cur;
+    return value;
   }
 
   peekFirst() {
@@ -61,6 +55,10 @@ class SinglyLinkedList {
 
   peekLast() {
     return this.tail;
+  }
+
+  isEmpty() {
+    return this.head === null;
   }
 };
 

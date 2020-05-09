@@ -7,34 +7,28 @@ class Node {
 
 class StackLinkedList {
   constructor() {
-    this.head = null;
+    this.top = null;
   }
 
-  add(value) {
-    if (!this.head) this.head = new Node(value);
-    else this.head = new Node(value, this.head);
+  push(value) {
+    if (!this.top) this.top = new Node(value);
+    else this.top = new Node(value, this.top);
   }
 
-  remove() {
-    if (!this.head) return null;
+  pop() {
+    if (this.isEmpty()) return null;
 
-    if (!this.head.next) {
-      const cur = this.head;
-      this.head = null;
-      return cur;
-    }
-
-    const cur = this.head;
-    this.head = this.head.next;
-    return cur;
+    const value = this.top.value;
+    this.top = this.top.next;
+    return value;
   }
 
   peek() {
-    return this.head;
+    return this.top;
   }
 
   isEmpty() {
-    return this.head === null;
+    return this.top === null;
   }
 };
 

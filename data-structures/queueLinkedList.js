@@ -16,17 +16,12 @@ class Queue {
   }
 
   dequeue() {
-    if (!this.head) return null;
+    if (this.isEmpty()) return null;
 
-    if (!this.head.next) {
-      const cur = this.head;
-      this.head = this.tail = null;
-      return cur;
-    }
-
-    const cur = this.head;
+    const value = this.head.value;
     this.head = this.head.next;
-    return cur;
+    if (!this.head) this.tail = null;
+    return value;
   }
 
   peek() {
