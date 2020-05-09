@@ -13,20 +13,12 @@ class DoublyLinkedList {
 
   addFirst(value) {
     if (!this.head) this.head = this.tail = new Node(value);
-    else {
-      const newNode = new Node(value, this.head);
-      this.head.prev = newNode;
-      this.head = newNode;
-    }
+    else this.head = this.head.prev = new Node(value, this.head);
   }
 
   addLast(value) {
     if (!this.head) this.head = this.tail = new Node(value);
-    else {
-      const newNode = new Node(value, null, this.tail);
-      this.tail.next = newNode;
-      this.tail = newNode;
-    }
+    else this.tail = this.tail.next = new Node(value, null, this.tail);
   }
 
   removeFirst() {
