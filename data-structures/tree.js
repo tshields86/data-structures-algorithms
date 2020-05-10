@@ -1,46 +1,21 @@
-class Node {
+class TreeNode {
   constructor(value) {
     this.value = value;
-    this.left = this.right = null;
+    this.children = [];
   }
 
-  insert(value) {
-    if (value <= this.value) {
-      if (!this.left) this.left = new Node(value);
-      else this.left.insert(value);
-    } else {
-      if (!this.right) this.right = new Node(value);
-      else this.right.insert(value);
-    }
-  }
-
-  contains(value) {
-    if (value === this.value) return true;
-    else if (value <= this.value && this.left) return this.left.contains(value); 
-    else if (value > this.value && this.right) return this.right.contains(value);
-    else return false;
-  }
-
-  inOrder(array = []) {
-    if (this.left) this.left.inOrder(array);
-    array.push(this.value);
-    if (this.right) this.right.inOrder(array);
-    return array;
-  }
-
-  preOrder(array = []) {
-    array.push(this.value);
-    if (this.left) this.left.preOrder(array);
-    if (this.right) this.right.preOrder(array);
-    return array;
-  }
-
-  postOrder(array = []) {
-    if (this.left) this.left.postOrder(array);
-    if (this.right) this.right.postOrder(array);
-    array.push(this.value);
-    return array;
+  add(...values) {
+    this.children.push(...values);
   }
 };
 
-class Tree extends Node {};
+const abe = new TreeNode('Abe');
+const homer = new TreeNode('Homer');
+const bart = new TreeNode('Bart');
+const lisa = new TreeNode('Lisa');
+const maggie = new TreeNode('Maggie');
+
+abe.add(homer);
+homer.add(bart, lisa, maggie);
+
+console.log(JSON.stringify(abe))

@@ -5,7 +5,7 @@ class Node {
   }
 };
 
-class StackLinkedList {
+class Stack {
   constructor() {
     this.top = null;
   }
@@ -32,4 +32,4 @@ class StackLinkedList {
   }
 };
 
-const stack = new StackLinkedList();
+const stack = new Stack();
