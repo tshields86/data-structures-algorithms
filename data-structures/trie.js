@@ -8,18 +8,14 @@ class TrieNode {
 
 class Trie extends TrieNode {
   constructor() {
-    super()
+    super();
   }
 
   addWord(word) {
     let node = this;
     for (let c of word) {
-      if (node.children.has(c)) node = node.children.get(c);
-      else {
-        const newNode = new TrieNode(c);
-        node.children.set(c, newNode);
-        node = newNode;
-      }
+      if (!node.children.has(c)) node.children.set(c, new TrieNode(c));
+      node = node.children.get(c);
     }
     node.isValidWord = true;
   }
