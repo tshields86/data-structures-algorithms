@@ -4,11 +4,9 @@ const binarySearch = (target, array) => {
 
   while (startIdx <= endIdx) {
     const middleIdx = Math.floor((startIdx + endIdx) / 2);
-    const middleVal = array[middleIdx];
-
-    if (middleVal === target) return middleIdx;
-    if (middleVal < target) startIdx = middleIdx + 1;
-    if (middleVal > target) endIdx = middleIdx - 1;
+    if (array[middleIdx] === target) return middleIdx;
+    else if (array[middleIdx] < target) startIdx = middleIdx + 1;
+    else endIdx = middleIdx - 1;
   }
 
   return -1;
