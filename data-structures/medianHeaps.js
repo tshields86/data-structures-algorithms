@@ -143,7 +143,6 @@ const addNumber = (number, lowers, highers) => {
 const rebalance = (lowers, highers) => {
   const biggerHeap = lowers.size > highers.size ? lowers : highers;
   const smallerHeap = lowers.size > highers.size ? highers : lowers;
-
   if (biggerHeap.size - smallerHeap.size >= 2) {
     smallerHeap.add(biggerHeap.poll());
   }
