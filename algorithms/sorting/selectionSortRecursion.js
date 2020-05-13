@@ -1,18 +1,18 @@
+const swap = (array, indexA, indexB) => {
+  const temp = array[indexA];
+  array[indexA] = array[indexB];
+  array[indexB] = temp;
+};
+
 const selectionSortRecursion = (array, startIdx = 0) => {
   if (startIdx === array.length) return array;
-  let min = Infinity;
   let minIdx;
 
   for (let i = startIdx; i < array.length; i++) {
-    if (array[i] < min) {
-      min = array[i];
-      minIdx = i;
-    }
+    if (array[i] < (array[minIdx] || Infinity)) minIdx = i;
   }
 
-  let cur = arr[startIdx];
-  arr[startIdx] = min;
-  arr[minIdx] = cur;
+  swap(array, startIdx, minIdx);
 
   return selectionSortRecursion(array, startIdx + 1);
 };

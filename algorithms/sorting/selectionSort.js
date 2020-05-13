@@ -1,18 +1,18 @@
+const swap = (array, indexA, indexB) => {
+  const temp = array[indexA];
+  array[indexA] = array[indexB];
+  array[indexB] = temp;
+};
+
 const selectionSort = array => {
   for (let i = 0; i < array.length; i++) {
-    let min = Infinity;
     let minIdx;
 
     for (let j = i; j < array.length; j++) {
-      if (array[j] < min) {
-        min = array[j];
-        minIdx = j;
-      }
+      if (array[j] < (array[minIdx] || Infinity)) minIdx = j;
     }
 
-    let cur = arr[i];
-    arr[i] = min;
-    arr[minIdx] = cur;
+    swap(array, i, minIdx);
   }
 
   return array;
