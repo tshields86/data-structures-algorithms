@@ -1,19 +1,22 @@
+const swap = (array, indexA, indexB) => {
+  const temp = array[indexA];
+  array[indexA] = array[indexB];
+  array[indexB] = temp;
+};
+
 const bubbleSort = array => {
-  let swaps = 0;
+  let isSorted = false;
+  let lastUnsorted = array.length - 1;
 
-  for (let i = 0; i < array.length; i++) {
-
-    for (let j = 0; j < array.length - 1 - i; j++) {
-      let cur = array[j];
-      let next = array[j + 1];
-      if (cur > next) {
-        array[j] = next;
-        array[j + 1] = cur;
-        swaps++;
+  while (!isSorted) {
+    isSorted = true;
+    for (let i = 0; i < lastUnsorted; i++) {
+      if (array[i] > array[i + 1]) {
+        swap(array, i, i + 1);
+        isSorted = false;
       }
     }
-
-    if (swaps === 0) return array;
+    lastUnsorted--;
   }
 
   return array;
