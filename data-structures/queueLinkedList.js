@@ -25,7 +25,7 @@ class Queue {
   }
 
   peek() {
-    return this.head;
+    return this.head ? this.head.value: null;
   }
 
   isEmpty() {

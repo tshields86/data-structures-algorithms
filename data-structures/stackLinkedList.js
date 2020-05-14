@@ -24,7 +24,7 @@ class Stack {
   }
 
   peek() {
-    return this.top;
+    return this.top ? this.top.value: null;
   }
 
   isEmpty() {

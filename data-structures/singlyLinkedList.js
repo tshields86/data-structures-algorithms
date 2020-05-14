@@ -50,11 +50,11 @@ class SinglyLinkedList {
   }
 
   peekFirst() {
-    return this.head;
+    return this.head ? this.head.value : null;
   }
 
   peekLast() {
-    return this.tail;
+    return this.tail ? this.tail.value : null;
   }
 
   isEmpty() {

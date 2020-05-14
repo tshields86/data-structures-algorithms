@@ -156,7 +156,7 @@ for (node of postOrderIterator) {
 }
 
 console.log('*** dfs ***')
-// 10 4 3 5 30 15 40
+// [ 10, 4, 3, 5, 30, 15, 40 ]
 console.log(binarySearchTree.dfsArray());
 const dfsIterator = binarySearchTree.dfsTraversal();
 for (node of dfsIterator) {
@@ -164,7 +164,7 @@ for (node of dfsIterator) {
 }
 
 console.log('*** bfs ***')
-// 10 4 30 3 5 15 40
+// [ 10, 4, 30, 3, 5, 15, 40 ]
 console.log(binarySearchTree.bfsArray());
 const bfsIterator = binarySearchTree.bfsTraversal();
 for (node of bfsIterator) {
