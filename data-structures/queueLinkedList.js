@@ -11,7 +11,7 @@ class Queue {
   }
 
   enqueue(value) {
-    if (!this.head) this.head = this.tail = new Node(value);
+    if (this.isEmpty()) this.head = this.tail = new Node(value);
     else this.tail = this.tail.next = new Node(value);
   }
 

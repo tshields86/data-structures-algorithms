@@ -11,7 +11,7 @@ class Stack {
   }
 
   push(value) {
-    if (!this.top) this.top = new Node(value);
+    if (this.isEmpty()) this.top = new Node(value);
     else this.top = new Node(value, this.top);
   }
 

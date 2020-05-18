@@ -1,45 +1,11 @@
 /* Check for balanced parentheses in an expression */
-class Stack {
-  constructor() {
-    this.data = [];
-    this.top = 0;
-  }
+const Stack = require('../data-structures/stackLinkedList');
 
-  push(element) {
-    this.data[this.top] = element;
-    this.top++;
-  }
+const TOKEN_MAP = new Map([['(', ')'], ['{', '}'], ['[', ']']]);
 
-  pop() {
-    if (this.isEmpty()) return;
-    this.top--;
-    return this.data.pop();
-  }
+const isOpenSymbol = char => TOKEN_MAP.has(char);
 
-  peek() {
-    return this.data[this.top - 1];
-  }
-
-  isEmpty() {
-    return this.top === 0;
-  }
-}
-
-const TOKENS = [['(', ')'], ['{', '}'], ['[', ']']];
-
-const isOpenSymbol = char => {
-  for (let [open] of TOKENS) {
-    if (char === open) return true;
-  }
-  return false;
-}
-
-const matches = (openChar, closeChar) => {
-  for (let [openSymbol, closeSymbol] of TOKENS) {
-    if (openChar === openSymbol && closeChar === closeSymbol) return true;
-  }
-  return false;
-}
+const matches = (openChar, closeChar) => TOKEN_MAP.get(openChar) === closeChar;
 
 const isBalanced = expression => {
   const stack = new Stack();
