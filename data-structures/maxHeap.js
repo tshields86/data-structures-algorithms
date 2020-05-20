@@ -29,8 +29,8 @@ class MaxHeap {
 
   poll() {
     if (!this.size) return null;
-    const item = this.items[0];
-    this.items[0] = this.items.pop();
+    this.swap(0, this.size - 1);
+    const item = this.items.pop();
     this.size--;
     this.heapifyDown();
     return item;
@@ -67,15 +67,3 @@ class MaxHeap {
 };
 
 const maxHeap = new MaxHeap();
-
-console.log(maxHeap)
-maxHeap.add(10)
-maxHeap.add(30)
-maxHeap.add(5)
-maxHeap.add(15)
-maxHeap.add(2)
-maxHeap.add(25)
-console.log(maxHeap)
-maxHeap.poll()
-
-console.log(maxHeap)

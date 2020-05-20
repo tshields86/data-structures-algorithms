@@ -1,73 +1,62 @@
 const Stack = require('./stackLinkedList');
 const Queue = require('./queueLinkedList');
+
 class BinarySearchTreeNode {
-  constructor(value) {
+  constructor(value = null) {
     this.value = value;
     this.left = this.right = null;
   }
+};
+class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
 
-  insert(value) {
-    if (value === this.value) return; /* Implementations vary, this one does not allow duplicates */
+  insert(value, node = this.root) {
+    if (this.isEmpty()) return this.root = new BinarySearchTreeNode(value);
 
-    if (value < this.value) {
-      if (!this.left) this.left = new BinarySearchTreeNode(value);
-      else this.left.insert(value);
+    if (value === node.value) return; /* Implementations vary, this one does not allow duplicates */
+    if (value < node.value) {
+      if (!node.left) node.left = new BinarySearchTreeNode(value);
+      else this.insert(value, node.left);
     } else {
-      if (!this.right) this.right = new BinarySearchTreeNode(value);
-      else this.right.insert(value);
+      if (!node.right) node.right = new BinarySearchTreeNode(value);
+      else this.insert(value, node.right);
     }
   }
 
-  contains(value) {
-    if (value === this.value) return true;
-    else if (value < this.value && this.left) return this.left.contains(value);
-    else if (value > this.value && this.right) return this.right.contains(value);
+  contains(value, node = this.root) {
+    if (value === node.value) return true;
+    else if (value < node.value && node.left) return this.contains(value, node.left);
+    else if (value > node.value && node.right) return this.contains(value, node.right);
     else return false;
   }
 
-  inOrderArray(array = []) {
-    if (this.left) this.left.inOrderArray(array);
-    array.push(this.value);
-    if (this.right) this.right.inOrderArray(array);
+  preOrder(node = this.root, array = []) {
+    array.push(node.value);
+    if (node.left) this.preOrder(node.left, array);
+    if (node.right) this.preOrder(node.right, array);
     return array;
   }
 
-  * inOrderTraversal() {
-    if (this.left) yield* this.left.inOrderTraversal();
-    yield this.value;
-    if (this.right) yield* this.right.inOrderTraversal();
-  }
-
-  preOrderArray(array = []) {
-    array.push(this.value);
-    if (this.left) this.left.preOrderArray(array);
-    if (this.right) this.right.preOrderArray(array);
+  inOrder(node = this.root, array = []) {
+    if (node.left) this.inOrder(node.left, array);
+    array.push(node.value);
+    if (node.right) this.inOrder(node.right, array);
     return array;
   }
 
-  * preOrderTraversal() {
-    yield this.value;
-    if (this.left) yield* this.left.preOrderTraversal();
-    if (this.right) yield* this.right.preOrderTraversal();
-  }
-
-  postOrderArray(array = []) {
-    if (this.left) this.left.postOrderArray(array);
-    if (this.right) this.right.postOrderArray(array);
-    array.push(this.value);
+  postOrder(node = this.root, array = []) {
+    if (node.left) this.postOrder(node.left, array);
+    if (node.right) this.postOrder(node.right, array);
+    array.push(node.value);
     return array;
   }
 
-  * postOrderTraversal() {
-    if (this.left) yield* this.left.postOrderTraversal();
-    if (this.right) yield* this.right.postOrderTraversal();
-    yield this.value;
-  }
-
-  dfsArray() {
+  dfs() {
     const result = [];
     const stack = new Stack();
-    stack.push(this);
+    stack.push(this.root);
 
     while (!stack.isEmpty()) {
       const node = stack.pop();
@@ -78,23 +67,10 @@ class BinarySearchTreeNode {
     return result;
   }
 
-  * dfsTraversal() {
-    const stack = new Stack();
-
-    stack.push(this);
-
-    while (!stack.isEmpty()) {
-      const node = stack.pop();
-      yield node.value;
-      if (node.right) stack.push(node.right);
-      if (node.left) stack.push(node.left);
-    }
-  }
-
-  bfsArray() {
+  bfs() {
     const result = [];
     const queue = new Queue();
-    queue.enqueue(this);
+    queue.enqueue(this.root);
 
     while (!queue.isEmpty()) {
       const node = queue.dequeue();
@@ -105,22 +81,14 @@ class BinarySearchTreeNode {
     return result;
   }
 
-  * bfsTraversal() {
-    const queue = new Queue();
-
-    queue.enqueue(this);
-
-    while (!queue.isEmpty()) {
-      const node = queue.dequeue();
-      yield node.value;
-      if (node.left) queue.enqueue(node.left);
-      if (node.right) queue.enqueue(node.right);
-    }
+  isEmpty() {
+    return !this.root;
   }
 };
 
 
-const binarySearchTree = new BinarySearchTreeNode(10);
+const binarySearchTree = new BinarySearchTree();
+binarySearchTree.insert(10);
 binarySearchTree.insert(4);
 binarySearchTree.insert(30);
 binarySearchTree.insert(3);
@@ -134,39 +102,22 @@ console.log(binarySearchTree);
     3   5   15  40
 */
 
-console.log('*** inOrder ***')
-console.log(binarySearchTree.inOrderArray());
-const inOrderIterator = binarySearchTree.inOrderTraversal();
-for (node of inOrderIterator) {
-  console.log(node);
-}
-
 console.log('*** preOrder ***')
-console.log(binarySearchTree.preOrderArray());
-const preOrderIterator = binarySearchTree.preOrderTraversal();
-for (node of preOrderIterator) {
-  console.log(node);
-}
+// [ 10, 4, 3, 5, 30, 15, 40 ]
+console.log(binarySearchTree.preOrder());
+
+console.log('*** inOrder ***')
+// [ 3, 4, 5, 10, 15, 30, 40 ]
+console.log(binarySearchTree.inOrder());
 
 console.log('*** postOrder ***')
-console.log(binarySearchTree.postOrderArray());
-const postOrderIterator = binarySearchTree.postOrderTraversal();
-for (node of postOrderIterator) {
-  console.log(node);
-}
+// [ 3, 5, 4, 15, 40, 30, 10 ]
+console.log(binarySearchTree.postOrder());
 
 console.log('*** dfs ***')
 // [ 10, 4, 3, 5, 30, 15, 40 ]
-console.log(binarySearchTree.dfsArray());
-const dfsIterator = binarySearchTree.dfsTraversal();
-for (node of dfsIterator) {
-  console.log(node);
-}
+console.log(binarySearchTree.dfs());
 
 console.log('*** bfs ***')
 // [ 10, 4, 30, 3, 5, 15, 40 ]
-console.log(binarySearchTree.bfsArray());
-const bfsIterator = binarySearchTree.bfsTraversal();
-for (node of bfsIterator) {
-  console.log(node);
-}
+console.log(binarySearchTree.bfs());

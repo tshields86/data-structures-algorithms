@@ -29,8 +29,8 @@ class MinHeap {
 
   poll() {
     if (!this.size) return null;
-    const item = this.items[0];
-    this.items[0] = this.items.pop();
+    this.swap(0, this.size - 1);
+    const item = this.items.pop();
     this.size--;
     this.heapifyDown();
     return item;
