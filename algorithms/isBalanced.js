@@ -9,11 +9,11 @@ const matches = (openChar, closeChar) => TOKEN_MAP.get(openChar) === closeChar;
 
 const isBalanced = expression => {
   const stack = new Stack();
-  for (char of expression) {
+  for (let char of expression) {
     if (isOpenSymbol(char)) stack.push(char);
     else if (stack.isEmpty() || !matches(stack.pop(), char)) return false;
   }
-  return true;
+  return stack.isEmpty();
 };
 
 console.log(isBalanced('{()[{({})[]()}]}([])'));

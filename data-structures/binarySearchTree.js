@@ -32,25 +32,25 @@ class BinarySearchTree {
     else return false;
   }
 
-  preOrder(node = this.root, array = []) {
-    array.push(node.value);
-    if (node.left) this.preOrder(node.left, array);
-    if (node.right) this.preOrder(node.right, array);
-    return array;
+  preOrder(node = this.root, result = []) {
+    result.push(node.value);
+    if (node.left) this.preOrder(node.left, result);
+    if (node.right) this.preOrder(node.right, result);
+    return result;
   }
 
-  inOrder(node = this.root, array = []) {
-    if (node.left) this.inOrder(node.left, array);
-    array.push(node.value);
-    if (node.right) this.inOrder(node.right, array);
-    return array;
+  inOrder(node = this.root, result = []) {
+    if (node.left) this.inOrder(node.left, result);
+    result.push(node.value);
+    if (node.right) this.inOrder(node.right, result);
+    return result;
   }
 
-  postOrder(node = this.root, array = []) {
-    if (node.left) this.postOrder(node.left, array);
-    if (node.right) this.postOrder(node.right, array);
-    array.push(node.value);
-    return array;
+  postOrder(node = this.root, result = []) {
+    if (node.left) this.postOrder(node.left, result);
+    if (node.right) this.postOrder(node.right, result);
+    result.push(node.value);
+    return result;
   }
 
   dfs() {
@@ -121,3 +121,21 @@ console.log(binarySearchTree.dfs());
 console.log('*** bfs ***')
 // [ 10, 4, 30, 3, 5, 15, 40 ]
 console.log(binarySearchTree.bfs());
+
+
+const sumOfLevels = tree => {
+  const levels = [];
+  const queue = new Queue();
+  queue.enqueue([tree.root, 0]);
+
+  while (!queue.isEmpty()) {
+    const [node, level] = queue.dequeue();
+    levels[level] = (levels[level] || 0) + node.value;
+    if (node.left) queue.enqueue([node.left, level + 1]);
+    if (node.right) queue.enqueue([node.right, level + 1]);
+  }
+  return levels;
+};
+
+console.log('*** sumOfLevels ***')
+console.log(sumOfLevels(binarySearchTree))
