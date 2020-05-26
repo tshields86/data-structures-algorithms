@@ -9,8 +9,8 @@ const merge = (leftArray, rightArray) => {
     sortedArray.push(minimumEl);
   }
 
-  if (leftArray.length) sortedArray.push(leftArray[0]);
-  if (rightArray.length) sortedArray.push(rightArray[0]);
+  if (leftArray.length) sortedArray.push(...leftArray);
+  if (rightArray.length) sortedArray.push(...rightArray);
 
   return sortedArray;
 };

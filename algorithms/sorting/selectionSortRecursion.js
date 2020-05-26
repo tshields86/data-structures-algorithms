@@ -6,10 +6,10 @@ const swap = (array, indexA, indexB) => {
 
 const selectionSortRecursion = (array, startIdx = 0) => {
   if (startIdx === array.length) return array;
-  let minIdx;
+  let minIdx = startIdx;
 
   for (let i = startIdx; i < array.length; i++) {
-    if (array[i] < (array[minIdx] || Infinity)) minIdx = i;
+    if (array[i] < array[minIdx]) minIdx = i;
   }
 
   swap(array, startIdx, minIdx);

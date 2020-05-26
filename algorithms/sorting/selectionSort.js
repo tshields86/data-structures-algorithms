@@ -6,10 +6,10 @@ const swap = (array, indexA, indexB) => {
 
 const selectionSort = array => {
   for (let i = 0; i < array.length; i++) {
-    let minIdx;
+    let minIdx = i;
 
     for (let j = i; j < array.length; j++) {
-      if (array[j] < (array[minIdx] || Infinity)) minIdx = j;
+      if (array[j] < array[minIdx]) minIdx = j;
     }
 
     swap(array, i, minIdx);
