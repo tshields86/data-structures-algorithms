@@ -7,15 +7,18 @@ class Graph {
   }
 
   addNode(node) {
+    if (this.adjacencyList.has(node)) return;
     this.adjacencyList.set(node, new Set());
   }
 
   addEdge(node1, node2) {
+    if (!this.adjacencyList.has(node1) || !this.adjacencyList.has(node2)) return;
     this.adjacencyList.get(node1).add(node2);
     this.adjacencyList.get(node2).add(node1);
   }
 
   addDirectedEdge(node1, node2) {
+    if (!this.adjacencyList.has(node1) || !this.adjacencyList.has(node2)) return;
     this.adjacencyList.get(node1).add(node2);
   }
 
@@ -24,38 +27,20 @@ class Graph {
   }
 
   display() {
-    return [...this.adjacencyList.keys()]
-      .map(node => `${node} => ${[...this.adjacencyList.get(node)].join(', ')}`)
-      .join('\n');
+    for (let [node, edge] of this.adjacencyList) {
+      console.log(node, edge);
+    }
   }
 
-  dfsArray(startNode) {
-    const result = [];
+  dfs(startNode, fxn) {
     const stack = new Stack();
     const explored = new Set([startNode]);
     stack.push(startNode);
 
     while (!stack.isEmpty()) {
       const node = stack.pop();
-      result.push(node);
-      for (let n of this.adjacencyList.get(node)) {
-        if (!explored.has(n)) {
-          explored.add(n);
-          stack.push(n);
-        }
-      }
-    }
-    return result;
-  }
+      fxn(node);
 
-  * dfsTraversal(startNode) {
-    const stack = new Stack();
-    const explored = new Set([startNode]);
-    stack.push(startNode);
-
-    while (!stack.isEmpty()){
-      const node = stack.pop();
-      yield node;
       for (let n of this.adjacencyList.get(node)) {
         if (!explored.has(n)) {
           explored.add(n);
@@ -65,33 +50,15 @@ class Graph {
     }
   }
 
-  bfsArray(startNode) {
-    const result = [];
+  bfs(startNode, fxn) {
     const queue = new Queue();
     const explored = new Set([startNode]);
     queue.enqueue(startNode);
 
     while (!queue.isEmpty()) {
       const node = queue.dequeue();
-      result.push(node);
-      for (let n of this.adjacencyList.get(node)) {
-        if (!explored.has(n)) {
-          explored.add(n);
-          queue.enqueue(n);
-        }
-      }
-    }
-    return result;
-  }
+      fxn(node);
 
-  * bfsTraversal(startNode) {
-    const queue = new Queue();
-    const explored = new Set([startNode]);
-    queue.enqueue(startNode);
-
-    while (!queue.isEmpty()) {
-      const node = queue.dequeue();
-      yield node;
       for (let n of this.adjacencyList.get(node)) {
         if (!explored.has(n)) {
           explored.add(n);
@@ -113,7 +80,7 @@ graph.addEdge('a', 'c');
 graph.addEdge('b', 'd');
 graph.addEdge('c', 'd');
 graph.addEdge('d', 'e');
-console.log(graph.display());
+graph.display();
 /*
 a => b, c
 b => a, d
@@ -126,16 +93,29 @@ console.log(graph.getAdjacentNodes('a'));
 
 console.log('*** dfs ***')
 // [ 'a', 'c', 'd', 'e', 'b' ]
-console.log(graph.dfsArray('a'));
-const dfsIterator = graph.dfsTraversal('a');
-for (node of dfsIterator) {
-  console.log(node);
-}
+graph.dfs('a', console.log);
 
 console.log('*** bfs ***')
 // [ 'a', 'b', 'c', 'd', 'e' ]
-console.log(graph.bfsArray('a'));
-const bfsIterator = graph.bfsTraversal('a');
-for (node of bfsIterator) {
-  console.log(node);
-}
+graph.bfs('a', console.log);
+
+const doesPathExist = (graph, nodeA, nodeB) => {
+  const queue = new Queue();
+  const explored = new Set([nodeA]);
+  queue.enqueue(nodeA);
+
+  while (!queue.isEmpty()) {
+    const node = queue.dequeue();
+    if (node === nodeB) return true;
+
+    for (let n of graph.adjacencyList.get(node)) {
+      if (!explored.has(n)) {
+        explored.add(n);
+        queue.enqueue(n);
+      }
+    }
+  }
+  return false;
+};
+
+console.log(doesPathExist(graph, 'a', 'e'));
