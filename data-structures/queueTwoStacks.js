@@ -22,10 +22,6 @@ class Queue {
     return this.dequeueStack.peek();
   }
 
-  isEmpty() {
-    return this.dequeueStack.isEmpty() && this.enqueueStack.isEmpty();
-  }
-
   transfer() {
     if (this.dequeueStack.isEmpty()) {
       while (!this.enqueueStack.isEmpty()) {

@@ -7,8 +7,8 @@ class Node {
   }
 };
 
-const validateBST = (root, min = -Infinity, max = Infinity) => {
-  if (!root) return true;
-  if (root.value < min || root.value > max) return false;
-  return validateBST(root.left, min, root.value) && validateBST(root.right, root.value, max);
+const validateBST = (node, min = -Infinity, max = Infinity) => {
+  if (!node) return true;
+  if (node.value < min || node.value > max) return false;
+  return validateBST(node.left, min, node.value) && validateBST(node.right, node.value, max);
 };
