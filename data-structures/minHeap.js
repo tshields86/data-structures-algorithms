@@ -66,4 +66,4 @@ class MinHeap {
   }
 };
 
-const minHeap = new MinHeap();
+module.exports = MinHeap;

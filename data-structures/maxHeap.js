@@ -66,4 +66,4 @@ class MaxHeap {
   }
 };
 
-const maxHeap = new MaxHeap();
+module.exports = MaxHeap;
