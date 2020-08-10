@@ -6,7 +6,7 @@ class MaxHeap {
 
   getLeftChildIndex(parentIndex) { return 2 * parentIndex + 1; }
   getRightChildIndex(parentIndex) { return 2 * parentIndex + 2; }
-  getParentIndex(childIndex) { return Math.ceil((childIndex - 2) / 2); }
+  getParentIndex(childIndex) { return Math.floor((childIndex - 1) / 2); }
 
   hasLeftChild(index) { return this.getLeftChildIndex(index) < this.size; }
   hasRightChild(index) { return this.getRightChildIndex(index) < this.size; }
