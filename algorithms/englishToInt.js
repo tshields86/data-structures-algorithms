@@ -53,25 +53,25 @@ const MAGNITUDE = {
 };
 
 const englishToInt = string => {
-  const array = string.split(' ');
+  const words = string.split(' ');
 
-  let n = 0;
-  let g = 0;
+  let tempNum = 0;
+  let finalNum = 0;
   
-  array.forEach(w => {
-    if (w === 'hundred') g = g * 100;
+  words.forEach(word => {
+    const small = SMALL[word];
+    if (small) finalNum = finalNum + small;
 
-    const small = SMALL[w];
-    if (small) g = g + small;
+    if (word === 'hundred') finalNum = finalNum * 100;
 
-    const magnitude = MAGNITUDE[w];
+    const magnitude = MAGNITUDE[word];
     if (magnitude) {
-      n = n + g * magnitude
-      g = 0;
+      tempNum = tempNum + finalNum * magnitude
+      finalNum = 0;
     }
   });
 
-  return n + g;
+  return tempNum + finalNum;
 };
 
 console.log(englishToInt('eighty one million one hundred three thousand ten'));
