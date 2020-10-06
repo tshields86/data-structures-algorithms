@@ -10,22 +10,82 @@
 | /x/y     | p/./q          | /x/y/p/q
 */
 
-const cd = (cwd, arg) => {
-  if (arg[0] === '/') {
-    cwd = '/';
-    arg = arg.slice(1);
+class Node {
+  constructor(value, next = null) {
+    this.value = value;
+    this.next = next;
+  }
+};
+
+class Stack {
+  constructor(iterable = null) {
+    this.top = null;
+    this.size = 0;
+
+    if (iterable) Array.from(iterable, value => this.push(value));
   }
 
-  const directories = cwd.split('/').filter(x => x !== '');
-  const actions = arg.split('/');
+  push(value) {
+    if (this.isEmpty()) this.top = new Node(value);
+    else this.top = new Node(value, this.top);
+    return ++this.size;
+  }
 
-  actions.forEach(action => {
-    if (action === '.') return;
-    if (action === '..') directories.pop();
-    else directories.push(action)
-  });
+  pop() {
+    if (this.isEmpty()) return;
+    const oldTop = this.top;
+    this.top = this.top.next;
+    oldTop.next = null;
+    this.size--;
+    return oldTop.value;
+  }
 
-  return `/${directories.join('/')}`;
+  isEmpty() {
+    return this.size === 0;
+  }
+};
+
+class FileSystem extends Stack {
+  constructor(cwd) {
+    super(cwd
+      .split('/')
+      .filter(chunk => chunk !== '')
+    );
+  }
+
+  cd(arg) {
+    const chunks = arg.split('/');
+    for (let chunk of chunks) {
+      if (chunk === '') this.clear();
+      else if (chunk === '.') {}
+      else if (chunk === '..') this.pop();
+      else this.push(chunk);
+    }
+  }
+
+  clear() {
+    if (this.isEmpty()) return;
+    this.top = null;
+    this.size = 0;
+  }
+
+  *[Symbol.iterator]() {
+    let current = this.top;
+    while (current) {
+      yield current.value;
+      current = current.next;
+    }
+  }
+
+  pwd() {
+    return `/${[...this].reverse().join('/')}`;
+  }
+}
+
+const cd = (cwd, arg) => {
+  const fileSystem = new FileSystem(cwd);
+  fileSystem.cd(arg);
+  return fileSystem.pwd();
 };
 
 console.log(cd('/', 'a'));
